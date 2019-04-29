@@ -32,7 +32,7 @@ python3 main.py
 Для работы требуется Python не ниже версии 3.6.
 Затем используйте `pip3`  для установки зависимостей:
 ```
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 Для корректной работы с [API SuperJob](https://api.superjob.ru/) требуется зарегистрироваться и получить
 `secret key`.
