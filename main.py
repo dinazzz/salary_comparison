@@ -1,7 +1,7 @@
 from os import getenv
 from dotenv import load_dotenv
-from programmers_salary_hh import hh_languages_statictic
-from programmers_salary_superjob import sj_languages_statictic
+from programmers_salary_hh import get_hh_statistic
+from programmers_salary_superjob import get_sj_statistic
 from terminaltables import AsciiTable
 
 
@@ -19,8 +19,13 @@ if __name__ == '__main__':
     load_dotenv()
     secret_key = getenv('SECRET_KEY')
     languages = ['Python', 'Java', 'Ruby', 'JavaScript']
-    hh_stat = hh_languages_statictic(languages)
-    sj_stat = sj_languages_statictic(languages, secret_key)
+    hh_stat = {}
+    sj_stat = {}
+    for language in languages:
+        print(f'Загружаются данные по языку {language} с HeadHunter')
+        hh_stat[language] = get_hh_statistic(language)
+        print(f'Загружаются данные по языку {language} с SuperJob')
+        sj_stat[language] = get_sj_statistic(language, secret_key)
     hh_table = make_table('HeadHunter Moscow', hh_stat).table
     sj_table = make_table('SuperJob Moscow', sj_stat).table
     print(hh_table)
