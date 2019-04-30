@@ -9,7 +9,6 @@ def paginator_vacancies_sj(text, location, secret_key):
     for page in count():
         page_data = get_vacancies_sj(text, location, secret_key, page=page)
         vacancies_list.extend(page_data['objects'])
-        print(f'Загружена страница {page + 1} по запросу {text} в SuperJob')
         if not page_data['more']:
             break
     return vacancies_list
@@ -24,9 +23,9 @@ def get_vacancies_sj(text, location, secret_key, page=0):
     return response.json()
 
 
-def sj_languages_statictic(languages, secret_key):
-    languages_statictic = {}
-    for language in languages:
-        sj_vacancies_list = paginator_vacancies_sj(f'Программист {language}', 4, secret_key)
-        languages_statictic[language] = fetch_average_salary_sj(sj_vacancies_list)
-    return languages_statictic
+def get_sj_statistic(language, secret_key):
+    sj_vacancies_list = paginator_vacancies_sj(f'Программист {language}',
+                                               location=4,  # Moscow
+                                               secret_key=secret_key
+                                               )
+    return fetch_average_salary_sj(sj_vacancies_list)
