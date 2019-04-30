@@ -22,37 +22,24 @@ def get_predict_rub_salary_sj(vacancy):
         return None
 
 
-def fetch_average_salary_hh(hh_vacancies_list):
-    result = {}
-    summ = 0
-    vacancies_processed = 0
-    for vacancy in hh_vacancies_list:
-        salary = get_predict_rub_salary_hh(vacancy)
-        if salary:
-            summ += salary
-            vacancies_processed += 1
-    result['vacancies_found'] = len(hh_vacancies_list)
-    result['vacancies_processed'] = vacancies_processed
-    if vacancies_processed == 0:
-        result['average_salary'] = 0
-    else:
-        result['average_salary'] = int(summ / vacancies_processed)
+def calculate_average_salary(salary_list):
+    salary_list_processed = [salary for salary in salary_list if salary is not None]
+    vacancies_found = len(salary_list)
+    vacancies_processed = len(salary_list_processed)
+    average_salary = int(sum(salary_list_processed) / vacancies_processed) if vacancies_processed > 0 else 0
+    result = {
+        'vacancies_found': vacancies_found,
+        'vacancies_processed': vacancies_processed,
+        'average_salary': average_salary
+    }
     return result
+
+
+def fetch_average_salary_hh(hh_vacancies_list):
+    salary_list = [get_predict_rub_salary_hh(vacancy) for vacancy in hh_vacancies_list]
+    return calculate_average_salary(salary_list)
 
 
 def fetch_average_salary_sj(sj_vacancies_list):
-    result = {}
-    summ = 0
-    vacancies_processed = 0
-    for vacancy in sj_vacancies_list:
-        salary = get_predict_rub_salary_sj(vacancy)
-        if salary:
-            summ += salary
-            vacancies_processed += 1
-    result['vacancies_found'] = len(sj_vacancies_list)
-    result['vacancies_processed'] = vacancies_processed
-    if vacancies_processed == 0:
-        result['average_salary'] = 0
-    else:
-        result['average_salary'] = int(summ / vacancies_processed)
-    return result
+    salary_list = [get_predict_rub_salary_sj(vacancy) for vacancy in sj_vacancies_list]
+    return calculate_average_salary(salary_list)
