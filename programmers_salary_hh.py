@@ -18,15 +18,14 @@ def paginator_vacancies_hh(text, location):
         page_data = get_vacancies_hh(text, location, page=page)
         if page >= page_data['pages']:
             break
-        print(f'Загружена страница {page+1}/{page_data["pages"]} по запросу {text} в HeadHunter')
         vacancies_list.extend(page_data['items'])
     return vacancies_list
 
 
-def hh_languages_statictic(languages):
-    languages_statictic = {}
-    for language in languages:
-        hh_vacancies_list = paginator_vacancies_hh(f'Программист {language}', 1)
-        languages_statictic[language] = fetch_average_salary_hh(hh_vacancies_list)
-    return languages_statictic
+def get_hh_statistic(language):
+    hh_vacancies_list = paginator_vacancies_hh(f'Программист {language}',
+                                               location=1  # Moscow
+                                               )
+    return fetch_average_salary_hh(hh_vacancies_list)
+
 
